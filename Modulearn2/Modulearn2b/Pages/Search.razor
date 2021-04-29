@@ -1,0 +1,21 @@
+﻿
+@page "/search"
+
+<h1 class="center-text wide">Search</h1>
+
+<div>
+    <div id="search-bar">
+        <input  type="text" class="wide" />
+        <button class="oi oi-magnifying-glass" id="search-button"></button>
+    </div>
+    
+</div>
+
+@code {
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}
