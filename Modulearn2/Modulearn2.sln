@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Modulearn2", "Modulearn2\Modulearn2.csproj", "{6DFABD5E-C44C-41B8-89EF-FBDCD3047EF4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modulearn2b", "Modulearn2b\Modulearn2b.csproj", "{F78947A4-E7EC-452B-BEC6-6942389624D0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modulearn2A", "Modulearn2A\Modulearn2A.csproj", "{38497B3C-9DAD-43C7-92C6-2DEA530C470A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6DFABD5E-C44C-41B8-89EF-FBDCD3047EF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6DFABD5E-C44C-41B8-89EF-FBDCD3047EF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6DFABD5E-C44C-41B8-89EF-FBDCD3047EF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6DFABD5E-C44C-41B8-89EF-FBDCD3047EF4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F78947A4-E7EC-452B-BEC6-6942389624D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F78947A4-E7EC-452B-BEC6-6942389624D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F78947A4-E7EC-452B-BEC6-6942389624D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F78947A4-E7EC-452B-BEC6-6942389624D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38497B3C-9DAD-43C7-92C6-2DEA530C470A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38497B3C-9DAD-43C7-92C6-2DEA530C470A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38497B3C-9DAD-43C7-92C6-2DEA530C470A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38497B3C-9DAD-43C7-92C6-2DEA530C470A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

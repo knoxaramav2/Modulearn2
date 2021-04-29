@@ -1,0 +1,48 @@
+﻿
+/*General*/
+body {
+    background: gray;
+}
+
+.flex-body{
+    width:100%;
+    display:flex;
+    flex-direction:row;
+    height: 100%;
+    flex: 1;
+}
+
+.left-body{
+    max-width: 30%;
+    min-width: 20%;
+}
+
+.right-body{
+    width: 100%;
+}
+
+/*Controls*/
+.top-nav-bar {
+    display: flex;
+    width: 100%;
+}
+
+.top-nav-bar .nav-item-group{
+    order: 2;
+    margin-left: auto;
+}
+
+.side-nav-bar{
+    min-width: 50px;
+    background: #aaa;
+    padding-left: 10%;
+    margin-left: 5px;
+    height: 100%;
+}
+
+.nav-item a{
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: system-ui, monospace, sans-serif;
+}
