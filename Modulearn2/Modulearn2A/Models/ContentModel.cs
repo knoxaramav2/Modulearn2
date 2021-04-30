@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Modulearn2A.Models
 {
-    public class ContentJointTable
+    public class ContentJointModel
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }

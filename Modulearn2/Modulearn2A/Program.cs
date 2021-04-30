@@ -4,8 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Modulearn2A.Data;
+using Modulearn2A.Models;
 
 namespace Modulearn2A
 {
@@ -13,7 +16,11 @@ namespace Modulearn2A
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var hostBuilder = CreateHostBuilder(args).Build();
+
+            VerifyDatabase(hostBuilder);
+
+            hostBuilder.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -22,5 +29,22 @@ namespace Modulearn2A
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+
+        public static void VerifyDatabase(IHost host)
+        {
+            using(var scope = host.Services.CreateScope())
+            {
+                var serviceProvider = scope.ServiceProvider;
+                try
+                {
+                    var context = serviceProvider.GetRequiredService<ModulearnDbContext>();
+                    DbInit.InitializeDatabase(context);
+                } catch(Exception e)
+                {
+                    var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(e, "Failure verifying database.");
+                }
+            }
+        }
     }
 }
