@@ -11,6 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore;
 using Modulearn2A.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Modulearn2A
 {
@@ -32,6 +35,31 @@ namespace Modulearn2A
                 var configString = Configuration.GetConnectionString("DefaultConnection");
                 options.UseSqlServer(configString);
             });
+
+            //Setup security tokens
+            var jwtConfig = Configuration.GetSection("JwtConfig").Get<JwtConfig>();
+            services.AddSingleton(jwtConfig);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = true;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = jwtConfig.Issuer,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.ASCII.GetBytes(jwtConfig.Secret)),
+                    ValidAudience = jwtConfig.Audience,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.FromMinutes(1)
+                };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,6 +79,7 @@ namespace Modulearn2A
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthorization();
+            app.UseAuthentication();
             
             app.UseEndpoints(endpoints =>
             {
@@ -60,4 +89,16 @@ namespace Modulearn2A
             });
         }
     }
+
+    public class JwtConfig
+    {
+        public int AccessTokenLifetime;
+        public int RefreshTokenLifetime;
+
+        public string Secret;
+        public string Issuer;
+        public string Audience;
+    }
+
+    
 }
