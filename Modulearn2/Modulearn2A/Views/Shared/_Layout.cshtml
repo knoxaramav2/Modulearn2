@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Modulearn2A.Utility;
+
+@{ var user = TempData.Get<UserModel>("User"); }
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -20,7 +24,17 @@
                 <div class="nav-item-group">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Login</a>
+                            @if (user == null)
+                            {
+                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Login/Sign-up</a>
+                            }
+                            else
+                            {   
+                                <div class="side-by-side">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Details">@user.UserName</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Logout">Logout</a>
+                                </div>
+                            }
                         </li>
                     </ul>
                 </div>

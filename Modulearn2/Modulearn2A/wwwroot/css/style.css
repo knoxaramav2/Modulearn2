@@ -46,3 +46,8 @@ body {
     font-weight: bold;
     font-family: system-ui, monospace, sans-serif;
 }
+
+.side-by-side{
+    display:flex;
+    flex-direction:row;
+}

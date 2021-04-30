@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Modulearn2A.Models;
+using Modulearn2A.Utility;
 
 namespace Modulearn2A.Controllers
 {
@@ -19,9 +20,9 @@ namespace Modulearn2A.Controllers
         }
 
         // GET: User
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Users.ToListAsync());
+            return View();
         }
 
         // GET: User/Details/5
@@ -42,6 +43,44 @@ namespace Modulearn2A.Controllers
             return View(userModel);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Login([Bind("UserName,PasswordHash")] UserModel userModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = _context.Users.Where(x=>
+                    x.PasswordHash == userModel.PasswordHash &&
+                    x.UserName == userModel.UserName).FirstOrDefault();
+
+                //TODO Error note for user not found
+                if (user == null)
+                {
+                    return View();
+                }
+
+                TempData.Put("User", user);
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View();
+        }
+
+        //[Bind("UserName,Password")] UserModel userModel
+        // GET: User/Login
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+
+        public IActionResult Logout()
+        {
+            TempData.Put<UserModel>("User", null);
+            return RedirectToAction("Index", "Home");
+        }
+
         // GET: User/Create
         public IActionResult Create()
         {
@@ -53,13 +92,23 @@ namespace Modulearn2A.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Email,UserName,PasswordHash")] UserModel userModel)
+        public async Task<IActionResult> Create([Bind("ID,Email,UserName,Password,ConfirmPassword")] ConfirmUserModel userModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(userModel);
+                string passwordHash = userModel.Password;
+
+                var userData = new UserModel()
+                {
+                    UserName = userModel.UserName,
+                    Email = userModel.Email,
+                    PasswordHash = passwordHash,
+                    RegistrationDate = DateTime.Now,
+                };
+
+                _context.Add(userData);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Login");
             }
             return View(userModel);
         }
@@ -85,7 +134,7 @@ namespace Modulearn2A.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Email,UserName,PasswordHash")] UserModel userModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Email,UserName,Password")] UserModel userModel)
         {
             if (id != userModel.ID)
             {
@@ -147,6 +196,6 @@ namespace Modulearn2A.Controllers
         private bool UserModelExists(int id)
         {
             return _context.Users.Any(e => e.ID == id);
-        }
+        }      
     }
 }
