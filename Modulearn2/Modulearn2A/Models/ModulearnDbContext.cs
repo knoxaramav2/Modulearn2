@@ -16,19 +16,17 @@ namespace Modulearn2A.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserModel>().ToTable("Users");
+            modelBuilder.Entity<AdminModel>().ToTable("Admins");
 
             modelBuilder.Entity<ContentModel>().ToTable("Contents");
-            modelBuilder.Entity<ContentMetaModel>().ToTable("ContentMetas");
-            modelBuilder.Entity<ContentJointModel>().ToTable("ContentJoints");
         }
 
         //Users
         public DbSet<UserModel> Users { get; set; }
+        public DbSet<AdminModel> Admins { get; set; }
 
         //Content
-        public DbSet<ContentJointModel> ContentJoints { get; set; }
         public DbSet<ContentModel> Content { get; set; }
-        public DbSet<ContentMetaModel> ContentMeta { get; set; }
 
     }
 }
