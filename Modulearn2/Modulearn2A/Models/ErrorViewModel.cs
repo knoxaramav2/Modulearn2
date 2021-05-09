@@ -1,5 +1,3 @@
-using System;
-
 namespace Modulearn2A.Models
 {
     public class ErrorViewModel

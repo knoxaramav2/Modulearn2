@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+
 using Modulearn2A.Models;
-using Modulearn2A.Utility;
 
 namespace Modulearn2A.Data
 {
