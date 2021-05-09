@@ -8,7 +8,6 @@ namespace Modulearn2A.Models
         {
 
         }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserModel>().ToTable("Users");

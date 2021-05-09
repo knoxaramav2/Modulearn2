@@ -12,5 +12,4 @@ namespace Modulearn2A.Models
         public DateTime DatePosted { get; set; }
         public int PosterID { get; set; }
     }
-
 }

@@ -87,7 +87,6 @@ namespace Modulearn2A.Controllers
             return View();
         }
 
-
         public IActionResult Logout()
         {
             TempData.Put<UserModel>("User", null);
@@ -215,7 +214,5 @@ namespace Modulearn2A.Controllers
         {
             return _context.Users.Any(e => e.ID == id);
         }     
-        
-        
     }
 }
