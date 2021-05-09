@@ -1,8 +1,7 @@
-﻿using Modulearn2A.Models;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
+
+using Modulearn2A.Models;
 
 namespace Modulearn2A.Data
 {
@@ -22,7 +21,10 @@ namespace Modulearn2A.Data
             {
                 UserName = "NULLUSER",
                 Email = "",
-                PasswordHash = ""
+                PasswordHash = null,
+                Salt = new byte[16],
+                RegistrationDate = DateTime.Now,
+                AccountImage = new byte[0]
             };
 
             context.Users.Add(nullUser);

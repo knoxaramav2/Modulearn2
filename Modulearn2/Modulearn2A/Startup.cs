@@ -18,6 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 
 using Modulearn2A.Utility;
 
+
 namespace Modulearn2A
 {
     public class Startup
@@ -40,6 +41,7 @@ namespace Modulearn2A
             });
 
             //Setup security tokens
+            /*
             var jwtConfig = Configuration.GetSection("JwtConfig").Get<JwtConfig>();
             services.AddSingleton(jwtConfig);
             services.AddAuthentication(x =>
@@ -62,7 +64,7 @@ namespace Modulearn2A
                     ValidateLifetime = true,
                     ClockSkew = TimeSpan.FromMinutes(1)
                 };
-            });
+            });*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

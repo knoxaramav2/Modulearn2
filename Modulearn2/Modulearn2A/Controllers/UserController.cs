@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+
 using Modulearn2A.Models;
 using Modulearn2A.Utility;
 
@@ -37,6 +36,7 @@ namespace Modulearn2A.Controllers
 
             var userModel = await _context.Users
                 .FirstOrDefaultAsync(m => m.ID == id);
+
             if (userModel == null)
             {
                 return NotFound();
@@ -47,23 +47,35 @@ namespace Modulearn2A.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Login([Bind("UserName,PasswordHash")] UserModel userModel)
+        public IActionResult Login([Bind("UserName,Password")] LoginModel userModel)
         {
+            string userNameOrEmail = userModel.UserName;
+            bool isEmail = Format.IsEmailFormat(userNameOrEmail);
+
             if (ModelState.IsValid)
             {
-                var user = _context.Users.Where(x=>
-                    x.PasswordHash == userModel.PasswordHash &&
-                    x.UserName == userModel.UserName).FirstOrDefault();
+                UserModel user = null;
+
+                if (isEmail)
+                {
+                    user = _context.Users.Where(x =>
+                        x.Email == userModel.UserName).FirstOrDefault();
+                } else
+                {
+                    user = _context.Users.Where(x =>
+                        x.UserName == userModel.UserName).FirstOrDefault();
+                }
 
                 //TODO Error note for user not found
-                if (user == null)
+                if (user == null ||
+                    !Security.VerifyPassword(user.PasswordHash, userModel.Password, user.Salt)
+                    )
                 {
+                    //TODO return with errors
                     return View();
                 }
 
-                TempData.Put("User", user);
-
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Home");
             }
 
             return View();
@@ -75,7 +87,6 @@ namespace Modulearn2A.Controllers
         {
             return View();
         }
-
 
         public IActionResult Logout()
         {
@@ -94,17 +105,20 @@ namespace Modulearn2A.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Email,UserName,Password,ConfirmPassword")] ConfirmUserModel userModel)
+        public async Task<IActionResult> Create(
+            [Bind("Email,UserName,Password,ConfirmPassword")] 
+            ConfirmUserModel userModel)
         {
             if (ModelState.IsValid)
             {
-                string passwordHash = userModel.Password;
+                string passwordHash = Security.HashPassword(userModel.Password, out byte[] salt);
 
                 var userData = new UserModel()
                 {
                     UserName = userModel.UserName,
                     Email = userModel.Email,
                     PasswordHash = passwordHash,
+                    Salt = salt,
                     RegistrationDate = DateTime.Now,
                 };
 
@@ -195,9 +209,11 @@ namespace Modulearn2A.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        //Utils
+
         private bool UserModelExists(int id)
         {
             return _context.Users.Any(e => e.ID == id);
-        }      
+        }     
     }
 }

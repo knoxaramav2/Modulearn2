@@ -52,9 +52,7 @@ namespace Modulearn2A.Utility
 
         public JwtAuthResult GenerateTokens(string userName, Claim[] claims, DateTime time)
         {
-            var addAudienceClaim = string.IsNullOrWhiteSpace(claims?.FirstOrDefault(x =>
-                x.Type == 
-                ));
+           
 
             return null;
         }

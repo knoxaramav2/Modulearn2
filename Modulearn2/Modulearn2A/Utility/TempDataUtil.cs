@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace Modulearn2A.Utility
 {
