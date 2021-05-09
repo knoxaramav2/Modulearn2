@@ -16,10 +16,4 @@ namespace Modulearn2A.Models
         public int PosterID { get; set; }
     }
 
-    public class AdminModel
-    {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
-        public int UserID { get; set; }
-    }
 }
